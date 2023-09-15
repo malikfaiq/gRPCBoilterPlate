@@ -3,10 +3,9 @@ import requests
 import logging
 
 logger = logging.getLogger()
-
 class WebhookPublisher:
     def __init__(self):
-        self.consumer = KafkaConsumer('todo-topic', bootstrap_servers=['kafka:9092'])
+        self.consumer = KafkaConsumer('todo-topic', bootstrap_servers=['kafka:9093'])
 
     def publish_to_webhook(self):
         for message in self.consumer:

@@ -20,12 +20,11 @@ class TodoManager:
     def update_task(self, updated_task):
         session = create_session()
         task = session.query(TodoItem).get(updated_task['id'])
-        logger.error("==========1=========")
         logger.error(task)
         if task:
             task.task = updated_task['task']
             session.commit()
-        logger.error("==========2=========")
+        KafkaTopicProducer().send_message(f'Task updated: {task.task}')
         session.close()
         return task
 
@@ -35,13 +34,12 @@ class TodoManager:
         if task:
             session.delete(task)
             session.commit()
+        KafkaTopicProducer().send_message(f'Task deleted: {task.task}')
         session.close()
         return task
 
     def get_tasks(self):
-        logger.error("M1")
         session = create_session()
-        logger.error("M2")
         tasks = session.query(TodoItem).all()
         session.close()
         return tasks

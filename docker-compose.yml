@@ -27,10 +27,15 @@ services:
       - "2181:2181"
 
   webhook_publisher:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     command: python webhook/webhook_publisher.py
     depends_on:
       - kafka
+    environment:
+      KAFKA_BROKER: "kafka:9093"
+      WEBHOOK_URL: "http://localhost:5000/webhook"
     volumes:
       - .:/app
   web:
