@@ -1,0 +1,23 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+
+package todo;
+
+message Empty {}
+
+message Task {
+  int32 id = 1;
+  string task = 2;
+  
+}
+
+service TodoService {
+  rpc CreateTask (Task) returns (Task);
+  rpc UpdateTask (Task) returns (Task);
+  rpc DeleteTask (Task) returns (Task);
+  rpc GetTasks (google.protobuf.Empty) returns (TaskList);
+}
+
+message TaskList {
+  repeated Task tasks = 1;
+}
