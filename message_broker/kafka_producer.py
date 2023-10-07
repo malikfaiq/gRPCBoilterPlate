@@ -10,5 +10,6 @@ class KafkaTopicProducer:
 
 
     def send_message(self, message):
+        #add you specific topic here
         self.producer.send('todo-topic', value=message.encode())
 
